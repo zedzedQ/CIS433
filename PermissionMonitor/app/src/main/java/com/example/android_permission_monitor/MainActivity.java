@@ -1,10 +1,13 @@
 package com.example.android_permission_monitor;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -20,6 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,5 +71,61 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public ArrayList onGetAllPackageNames(View view) {
+        final PackageManager pm = getPackageManager();
+
+        List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_META_DATA);
+        ArrayList<String> packageNames = new ArrayList<String>();
+
+        for (PackageInfo packageInfo : packages) {
+            packageNames.add(packageInfo.packageName);
+            Log.d(null, "Installed package :" + packageInfo.packageName);
+
+            // Log.d(null,"Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
+        }
+
+        return packageNames;
+
+    }
+
+    public ArrayList onGetAllAppNames(View view) {
+        final PackageManager pm = getPackageManager();
+
+        List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_META_DATA);
+        ArrayList<String> appNames = new ArrayList<String>();
+
+        for (PackageInfo packageInfo : packages) {
+            appNames.add(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
+            Log.d(null, "App name:" + packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
+
+            // Log.d(null,"Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
+        }
+
+        return appNames;
+
+
+
+    }
+
+    public void onGetPackagePermissions(View view){
+        String packageName = "com.google.android.keep";
+        final PackageManager pm = getPackageManager();
+
+        try {
+            PackageInfo pi = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
+            String [] permissions = pi.requestedPermissions;
+
+            for (String permission : permissions) {
+                Log.d(null, "permission name:" + permission);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+
+
     }
 }

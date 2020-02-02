@@ -1,7 +1,10 @@
 package com.example.android_permission_monitor.ui.monitor;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ import com.example.android_permission_monitor.MainActivity;
 import com.example.android_permission_monitor.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MonitorFragment extends Fragment {
 
@@ -28,11 +32,17 @@ public class MonitorFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_monitor, container, false);
-        ArrayList<String> ArrayOfNames = new ArrayList<String>();
-        ArrayOfNames.add("WeChat");
-        ArrayOfNames.add("Keep");
-        ArrayOfNames.add("Sina");
-        ArrayOfNames.add("Facebook");
+        ArrayList<String> ArrayOfNames = onGetAllAppNames();
+//        ArrayOfNames.add("WeChat");
+//        ArrayOfNames.add("Keep");
+//        ArrayOfNames.add("Sina");
+//        ArrayOfNames.add("Facebook");
+        final String TAG = "MyActivity";
+
+
+        for (int i = 0; i < ArrayOfNames.size(); i++) {
+            Log.i(TAG, "MyClass.getView() — get item number " + ArrayOfNames.get(i));
+        }
 
         for (int i = 0; i < ArrayOfNames.size(); i++) {
 
@@ -41,7 +51,7 @@ public class MonitorFragment extends Fragment {
             myButton.setId(i + 1);
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), R.string.app_name, Toast.LENGTH_LONG).show();
+
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), DisplayPermissionActivity.class);
                     startActivity(intent);
@@ -66,5 +76,22 @@ public class MonitorFragment extends Fragment {
 
         return root;
     }
+    public ArrayList onGetAllAppNames() {
+        final PackageManager pm = getActivity().getPackageManager();
 
+        List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_META_DATA);
+        ArrayList<String> appNames = new ArrayList<String>();
+
+        for (PackageInfo packageInfo : packages) {
+            appNames.add(packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString());
+            Log.d(null, "App name:" + packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString());
+
+            // Log.d(null,"Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
+        }
+
+        return appNames;
+
+
+
+    }
 }

@@ -12,32 +12,20 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.android_permission_monitor.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.android_permission_monitor.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.example.android_permission_monitor.ui.tools.ToolsFragment"
+        android:id="@+id/nav_monitor"
+        android:name="com.example.android_permission_monitor.ui.monitor.MonitorFragment"
         android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        tools:layout="@layout/fragment_monitor" />
 
     <fragment
-        android:id="@+id/nav_share"
-        android:name="com.example.android_permission_monitor.ui.share.ShareFragment"
+        android:id="@+id/nav_runningApp"
+        android:name="com.example.android_permission_monitor.ui.runningApp.RunningAppFragment"
         android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        tools:layout="@layout/fragment_running_app" />
 
     <fragment
-        android:id="@+id/nav_send"
-        android:name="com.example.android_permission_monitor.ui.send.SendFragment"
+        android:id="@+id/nav_feedback"
+        android:name="com.example.android_permission_monitor.ui.feedback.SendFragment"
         android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_feedback" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.android_permission_monitor.ui.slideshow;
+package com.example.android_permission_monitor.ui.runningApp;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.android_permission_monitor.R;
 
-public class SlideshowFragment extends Fragment {
+public class RunningAppFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private RunningAppViewModel runningAppViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(this, new Observer<String>() {
+        runningAppViewModel =
+                ViewModelProviders.of(this).get(RunningAppViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_running_app, container, false);
+        final TextView textView = root.findViewById(R.id.text_share);
+        runningAppViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

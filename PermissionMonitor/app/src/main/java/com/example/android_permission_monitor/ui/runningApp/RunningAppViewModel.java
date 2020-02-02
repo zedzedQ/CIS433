@@ -1,16 +1,16 @@
-package com.example.android_permission_monitor.ui.send;
+package com.example.android_permission_monitor.ui.runningApp;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SendViewModel extends ViewModel {
+public class RunningAppViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SendViewModel() {
+    public RunningAppViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is send fragment");
+        mText.setValue("This is RunningApp fragment");
     }
 
     public LiveData<String> getText() {

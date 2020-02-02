@@ -13,4 +13,8 @@
     <string name="menu_tools">Monitor</string>
     <string name="menu_share">Running APP</string>
     <string name="menu_send">Feedback</string>
+
+    <string name="home_help_topic">About the APP</string>
+    <string name="home_help_content">This APP names "Android APP Permission Monitor".</string>
+
 </resources>

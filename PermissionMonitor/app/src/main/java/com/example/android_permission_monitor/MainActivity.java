@@ -93,42 +93,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public ArrayList onGetAllAppNames(View view) {
-        final PackageManager pm = getPackageManager();
 
-        List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_META_DATA);
-        ArrayList<String> appNames = new ArrayList<String>();
-
-        for (PackageInfo packageInfo : packages) {
-            appNames.add(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
-            Log.d(null, "App name:" + packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
-
-            // Log.d(null,"Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
-        }
-
-        return appNames;
-
-
-
-    }
-
-    public void onGetPackagePermissions(View view){
-        String packageName = "com.google.android.keep";
-        final PackageManager pm = getPackageManager();
-
-        try {
-            PackageInfo pi = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
-            String [] permissions = pi.requestedPermissions;
-
-            for (String permission : permissions) {
-                Log.d(null, "permission name:" + permission);
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-    }
 }

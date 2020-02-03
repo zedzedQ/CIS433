@@ -18,21 +18,26 @@ public class DisplayPermissionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dispay_permission);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_dispay_permission);
 
-        String [] permissions = onGetPackagePermissions();
+            String [] permissions = onGetPackagePermissions();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, permissions);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, permissions);
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(adapter);
+            ListView listView = (ListView) findViewById(R.id.listView);
+            listView.setAdapter(adapter);
+
+            String appName = getIntent().getStringExtra("APP_NAME");
+            TextView textView = (TextView) findViewById(R.id.textView);
+            textView.setText(appName);
 
     }
 
     public String [] onGetPackagePermissions(){
-        String packageName = "com.google.android.keep";
+        // String packageName = "com.google.android.keep";
+        String packageName = getIntent().getStringExtra("PACKAGE_NAME");
         final PackageManager pm = getPackageManager();
         String [] defaultVal = {"null"};
 

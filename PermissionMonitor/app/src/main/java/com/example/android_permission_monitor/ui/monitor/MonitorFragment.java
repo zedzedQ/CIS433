@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +37,7 @@ public class MonitorFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_monitor, container, false);
-        ArrayList<String> ArrayOfNames = onGetAllAppNames();
+        final ArrayList<String> ArrayOfNames = onGetAllAppPackageNames();
 //        ArrayOfNames.add("WeChat");
 //        ArrayOfNames.add("Keep");
 //        ArrayOfNames.add("Sina");
@@ -42,20 +45,37 @@ public class MonitorFragment extends Fragment {
         final String TAG = "MyActivity";
 
 
-        for (int i = 0; i < ArrayOfNames.size(); i++) {
+        for (int i = 0; i < ArrayOfNames.size() / 2; i++) {
             Log.i(TAG, "MyClass.getView() — get item number " + ArrayOfNames.get(i));
         }
 
-        for (int i = 0; i < ArrayOfNames.size(); i++) {
+        for (int i = 0; i < ArrayOfNames.size() / 2; i++) {
 
             final Button myButton = new Button(root.getContext());
-            myButton.setText(ArrayOfNames.get(i));
+            final ImageView myIcon = new ImageView(root.getContext());
+
+
+            myButton.setText(ArrayOfNames.get(2*i));
             myButton.setId(i + 1);
+
+            final String curPackageName = ArrayOfNames.get(2*i+1);
+            final String curAppName = ArrayOfNames.get(2*i);
+            try {
+                final Drawable icon = getActivity().getPackageManager().getApplicationIcon(curPackageName);
+                myIcon.setImageDrawable(icon);
+            } catch(PackageManager.NameNotFoundException e) {
+                final Drawable icon = new ColorDrawable(Color.TRANSPARENT);
+                myIcon.setImageDrawable(icon);
+            }
+
+
 
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
                     Intent intent = new Intent();
+                    intent.putExtra("PACKAGE_NAME", curPackageName);
+                    intent.putExtra("APP_NAME", curAppName);
                     intent.setClass(getActivity(), DisplayPermissionActivity.class);
                     startActivity(intent);
 
@@ -74,28 +94,32 @@ public class MonitorFragment extends Fragment {
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             buttonParams.setMargins(0, 0, 0, 10);
 
+            linearlayout.addView(myIcon);
             linearlayout.addView(myButton, buttonParams);
+
         }
 
         return root;
     }
-    public ArrayList onGetAllAppNames() {
+    public ArrayList onGetAllAppPackageNames() {
         final PackageManager pm = getActivity().getPackageManager();
 
         List<PackageInfo> packages = pm.getInstalledPackages(PackageManager.GET_META_DATA);
-        ArrayList<String> appNames = new ArrayList<String>();
+        ArrayList<String> names = new ArrayList<String>();
 
         for (PackageInfo packageInfo : packages) {
-            String curPackageName = packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString();
-            if (!isInWhilteList(curPackageName)) {
-                appNames.add(curPackageName);
+            String curAppName = packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString();
+            String curPackageName = packageInfo.packageName;
+            if (!isInWhilteList(curAppName)) {
+                names.add(curAppName);
+                names.add(curPackageName);
             }
 
             Log.d(null, "App name:" + packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString());
 
             // Log.d(null,"Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
         }
-        return appNames;
+        return names;
     }
 
 
@@ -334,8 +358,9 @@ public class MonitorFragment extends Fragment {
                     "Vzw OMA Trigger",
                     "Gboard",
                     "Smart Storage",
-                    "android.auto_generated_rro_vendor__"
-
+                    "android.auto_generated_rro_vendor__",
+                    "com.google.android.overlay.pixelconfig2019midyear",
+                    "Factory OTA Mode"
                     ));
     // return true if in whiteList, else false
     public boolean isInWhilteList(String input) {

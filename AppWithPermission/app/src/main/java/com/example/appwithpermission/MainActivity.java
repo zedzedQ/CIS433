@@ -10,13 +10,78 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+
 public class MainActivity extends AppCompatActivity {
+
+    private final static String PATH = "/sdcard/skipPermission";
+    private final static String FILENAME = "/contacts.txt";
+
+    //向sdcard写文件
+    /**
+     * 写文件
+     */
+    private void onWrite(String str) {
+        try {
+            Log.e("555555555555555", "Start Write");
+            //1.判断是否存在sdcard
+            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                //目录
+                File path = new File(PATH);
+                //文件
+                File f = new File(PATH + FILENAME);
+                if(!path.exists()){
+                    //2.创建目录，可以在应用启动的时候创建
+                    path.mkdirs();
+                    Log.e("555555555555555", "Write case 1");
+                }
+                if (!f.exists()) {
+                    //3.创建文件
+                    f.createNewFile();
+                    Log.e("555555555555555", "Write case 2");
+                }else if(f.exists()){
+
+                    Log.e("555555555555555", "Write case 3");
+                }
+                OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(f, true));
+                //4.写文件，从EditView获得文本值
+                osw.write(str);
+                osw.close();
+            }
+        } catch (Exception e) {
+            Log.d("66666666666666", "file create error");
+        }
+
+    }
+
+    private void updateFile() {
+        try {
+            //1.判断是否存在sdcard
+            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                //目录
+                File path = new File(PATH);
+                //文件
+                File f = new File(PATH + FILENAME);
+                if(f.exists()){
+                    f.delete();
+                    f.createNewFile();
+                }
+
+            }
+        } catch (Exception e) {
+            Log.d("66666666666666", "file create error");
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getAllContacts(View view){
-
+//        updateFile();
         // reference: https://stackoverflow.com/questions/12562151/android-get-all-contacts
         ContentResolver cr = getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
@@ -81,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
                     while (pCur.moveToNext()) {
                         String phoneNo = pCur.getString(pCur.getColumnIndex(
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                        onWrite("Name: " + name + "\n");
+//                        onWrite("Phone: " + phoneNo + "\n");
                         Log.i(null, "Name: " + name);
                         Log.i(null, "Phone Number: " + phoneNo);
                     }

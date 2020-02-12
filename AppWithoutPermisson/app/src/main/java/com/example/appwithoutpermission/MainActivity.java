@@ -1,5 +1,8 @@
 package com.example.appwithoutpermission;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,44 +28,9 @@ import java.io.OutputStreamWriter;
 public class MainActivity extends AppCompatActivity {
 
 
-    private final static String PATH = "/sdcard/digu";
-    private final static String FILENAME = "/notes.txt";
-    String text1 ="888888888888888888888888888888888";
+    private final static String PATH = "/sdcard/skipPermission";
+    private final static String FILENAME = "/contacts.txt";
 
-    //向sdcard写文件
-    /**
-     * 写文件
-     */
-    private void onWrite(String str) {
-        try {
-            Log.e("555555555555555", "Start Write");
-            //1.判断是否存在sdcard
-            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                //目录
-                File path = new File(PATH);
-                //文件
-                File f = new File(PATH + FILENAME);
-                if(!path.exists()){
-                    //2.创建目录，可以在应用启动的时候创建
-                    path.mkdirs();
-                }
-                if (!f.exists()) {
-                    //3.创建文件
-                    f.createNewFile();
-                }else if(f.exists()){
-                    f.delete();
-                    f.createNewFile();
-                }
-                OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(f));
-                //4.写文件，从EditView获得文本值
-                osw.write(str);
-                osw.close();
-            }
-        } catch (Exception e) {
-            Log.d("66666666666666", "file create error");
-        }
-
-    }
 
     public String  readtex(){
         //文件
@@ -77,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 bos.write(array,0,len);
                 bos.close();
                 is.close();
-                Toast.makeText(MainActivity.this,"读出来的数据" +bos.toString(), Toast.LENGTH_SHORT).show();
-                Log.e("读出来的数据", bos.toString());
+                Log.e("Contacts Info Without Contacts permission!\n", bos.toString());
                 return bos.toString();
             }
         } catch (IOException e) {
@@ -104,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        onWrite("www888888888888888888888888888888888");
         readtex();
     }
 

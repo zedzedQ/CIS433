@@ -39,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
         try {
             is = new FileInputStream(f);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] array = new byte[1024];
+            byte[] array = new byte[2048];
             int len = -1;
             while( (len = is.read(array)) != -1){
                 bos.write(array,0,len);
                 bos.close();
                 is.close();
-                Log.e("Contacts Info Without Contacts permission!\n", bos.toString());
+                Log.e("Contacts Info:", bos.toString());
                 return bos.toString();
             }
         } catch (IOException e) {

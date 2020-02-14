@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private final static String PATH = "/sdcard/skipPermission";
     private final static String FILENAME = "/contacts.txt";
 
-
-    public String  readtex(){
-        //文件
+    // refer: https://blog.csdn.net/aicpzl/article/details/51451984
+    public String readContacts(){
+        // Set File Path
         File f = new File(PATH + FILENAME);
         FileInputStream is;
         try {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             byte[] array = new byte[2048];
             int len = -1;
             while( (len = is.read(array)) != -1){
-                bos.write(array,0,len);
+                bos.write(array,0, len);
                 bos.close();
                 is.close();
                 Log.e("Contacts Info:", bos.toString());
@@ -51,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return  null;
+        return null;
     }
 
 
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        readtex();
+        readContacts();
     }
 
     @Override

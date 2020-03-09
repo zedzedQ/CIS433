@@ -26,46 +26,35 @@ public class MainActivity extends AppCompatActivity {
     private final static String PATH = "/sdcard/skipPermission";
     private final static String FILENAME = "/contacts.txt";
 
-    //向sdcard写文件
-    /**
-     * 写文件
-     */
+    // ref: https://blog.csdn.net/aicpzl/article/details/51451984
     private void onWrite(String str) {
         try {
-            Log.e("555555555555555", "Start Write");
-            //1.判断是否存在sdcard
+            Log.e("Running", "Start Write");
+            // check if sd card exist
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                //目录
                 File path = new File(PATH);
-                //文件
                 File f = new File(PATH + FILENAME);
                 if(!path.exists()){
-                    //2.创建目录，可以在应用启动的时候创建
                     path.mkdirs();
                 }
                 if (!f.exists()) {
-                    //3.创建文件
                     f.createNewFile();
                 }else if(f.exists()){
                 }
                 OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(f, true));
-                //4.写文件，从EditView获得文本值
                 osw.write(str);
                 osw.close();
             }
         } catch (Exception e) {
-            Log.d("66666666666666", "file create error");
+            Log.d("Error", "file create error");
         }
 
     }
 
     private void updateFile() {
         try {
-            //1.判断是否存在sdcard
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                //目录
                 File path = new File(PATH);
-                //文件
                 File f = new File(PATH + FILENAME);
                 if(f.exists()){
                     f.delete();
@@ -74,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         } catch (Exception e) {
-            Log.d("66666666666666", "file create error2");
+            Log.d("Error", "file create error2");
         }
 
     }

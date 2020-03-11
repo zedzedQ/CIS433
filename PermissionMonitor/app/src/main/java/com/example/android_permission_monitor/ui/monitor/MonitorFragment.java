@@ -27,9 +27,7 @@ import com.example.android_permission_monitor.DisplayPermissionActivity;
 import com.example.android_permission_monitor.MainActivity;
 import com.example.android_permission_monitor.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class MonitorFragment extends Fragment {
 
@@ -38,10 +36,6 @@ public class MonitorFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_monitor, container, false);
         final ArrayList<String> ArrayOfNames = onGetAllAppPackageNames();
-//        ArrayOfNames.add("WeChat");
-//        ArrayOfNames.add("Keep");
-//        ArrayOfNames.add("Sina");
-//        ArrayOfNames.add("Facebook");
         final String TAG = "MyActivity";
 
 
@@ -64,8 +58,8 @@ public class MonitorFragment extends Fragment {
                 final Drawable icon = getActivity().getPackageManager().getApplicationIcon(curPackageName);
                 myIcon.setImageDrawable(icon);
             } catch(PackageManager.NameNotFoundException e) {
-                final Drawable icon = new ColorDrawable(Color.TRANSPARENT);
-                myIcon.setImageDrawable(icon);
+
+                myIcon.setImageDrawable(null);
             }
 
 
@@ -101,6 +95,7 @@ public class MonitorFragment extends Fragment {
 
         return root;
     }
+
     public ArrayList onGetAllAppPackageNames() {
         final PackageManager pm = getActivity().getPackageManager();
 
@@ -121,6 +116,8 @@ public class MonitorFragment extends Fragment {
         }
         return names;
     }
+
+
 
 
     ArrayList<String> whiteList = new ArrayList<String>(
@@ -362,6 +359,7 @@ public class MonitorFragment extends Fragment {
                     "com.google.android.overlay.pixelconfig2019midyear",
                     "Factory OTA Mode"
                     ));
+
     // return true if in whiteList, else false
     public boolean isInWhilteList(String input) {
         for (String str: whiteList) {

@@ -58,4 +58,5 @@ public class DisplayPermissionActivity extends AppCompatActivity {
         return defaultVal;
 
     }
+
 }
